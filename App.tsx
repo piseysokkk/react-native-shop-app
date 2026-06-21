@@ -1,20 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { CartProvider } from "./src/context/CartContext";
+import { OrderProvider } from "./src/context/OrderContext";
+import { WishlistProvider } from "./src/context/WishlistContext";
+import AppNavigator from "./src/navigation/AppNavigator";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <CartProvider>
+      <WishlistProvider>
+        <OrderProvider>
+          <AppNavigator />
+        </OrderProvider>
+      </WishlistProvider>
+    </CartProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
