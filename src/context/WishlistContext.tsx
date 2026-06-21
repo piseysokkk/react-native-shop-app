@@ -1,5 +1,7 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 import { Product } from "../types/product";
+import { useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type WishlistContextType = {
   wishlistItems: Product[];
@@ -10,6 +12,7 @@ type WishlistContextType = {
 const WishlistContext = createContext<WishlistContextType | undefined>(
   undefined,
 );
+const WISHLIST_STORAGE_KEY = "SHOP_APP_WISHLIST";
 
 type Props = {
   children: ReactNode;
@@ -17,7 +20,20 @@ type Props = {
 
 export function WishlistProvider({ children }: Props) {
   const [wishlistItems, setWishlistItems] = useState<Product[]>([]);
+  useEffect(() => {
+    async function loadWishlist() {
+      const saveWishlist = await AsyncStorage.getItem(WISHLIST_STORAGE_KEY);
 
+      if (saveWishlist) {
+        setWishlistItems(JSON.parse(saveWishlist));
+      }
+    }
+    loadWishlist();
+  }, []);
+
+  useEffect(() => {
+    AsyncStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify(wishlistItems));
+  }, [wishlistItems]);
   function toggleWishlist(product: Product) {
     setWishlistItems((currentItems) => {
       const exists = currentItems.some((item) => item.id === product.id);

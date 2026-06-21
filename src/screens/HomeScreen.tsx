@@ -10,20 +10,18 @@ import {
 import ProductCard from "../components/ProductCard";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { getProducts } from "../services/product.service";
 import { Product } from "../types/product";
 
 import { RootStackParamList } from "../types/navigation";
+import { useQuery } from "@tanstack/react-query";
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 export default function HomeScreen() {
   const navigation = useNavigation<NavigationProp>();
   const [searchText, setSearchText] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [products, setProducts] = useState<Product[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [isRefreshing, setIsRefreshing] = useState(false);
+
   const categories = [
     "All",
     "men's clothing",
@@ -31,6 +29,16 @@ export default function HomeScreen() {
     "jewelery",
     "electronics",
   ];
+  const {
+    data: products = [],
+    isLoading,
+    isError,
+    refetch,
+    isRefetching,
+  } = useQuery({
+    queryKey: ["products"],
+    queryFn: getProducts,
+  });
   const filteredProducts = products.filter((product) => {
     const matchesSearch = product?.name
       .toLowerCase()
@@ -40,41 +48,16 @@ export default function HomeScreen() {
     return matchesSearch && matchesCategory;
   });
 
-  async function loadProducts() {
-    try {
-      setError("");
-      const data = await getProducts();
-      setProducts(data);
-    } catch {
-      setError("Failed to laod products");
-    } finally {
-      setIsLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    loadProducts();
-  }, []);
-
-  async function handleRefresh() {
-    setIsRefreshing(true);
-
-    await loadProducts();
-
-    setIsRefreshing(false);
-  }
   if (isLoading) {
     return <Text>Loading products...</Text>;
   }
-  if (error) {
-    return <Text>{error}</Text>;
-  }
+  if (isError) return <Text>Failed to laod products</Text>;
 
   return (
     <FlatList
       data={filteredProducts}
-      refreshing={isRefreshing}
-      onRefresh={handleRefresh}
+      refreshing={isRefetching}
+      onRefresh={refetch}
       keyExtractor={(product) => product.id.toString()}
       renderItem={({ item }) => (
         <ProductCard
