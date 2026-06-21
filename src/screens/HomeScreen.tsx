@@ -89,18 +89,7 @@ export default function HomeScreen() {
       ListHeaderComponent={
         <>
           <Text style={styles.title}>Shop App</Text>
-          <Pressable
-            style={styles.wishlistButton}
-            onPress={() => navigation.navigate("Wishlist")}
-          >
-            <Text style={styles.wishlistButtonText}>View Wishlist ❤️</Text>
-          </Pressable>
-          <Pressable
-            style={styles.historyButton}
-            onPress={() => navigation.navigate("OrderHistory")}
-          >
-            <Text style={styles.historyButtonText}>Order History</Text>
-          </Pressable>
+
           <TextInput
             style={styles.searchInput}
             placeholder="Search products..."

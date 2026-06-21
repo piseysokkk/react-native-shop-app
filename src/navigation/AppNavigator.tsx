@@ -3,10 +3,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types/navigation";
 import HomeScreen from "../screens/HomeScreen";
 import ProductDetailScreen from "../screens/ProductDetailScreen";
-import CartScreen from "../screens/CartScreen";
+
 import CheckoutSreen from "../screens/CheckoutScreen";
-import WishlistScreen from "../screens/WishlistScreen";
-import OrderHistoryScreen from "../screens/OrderHistoryScreen";
+import TabNavigation from "./TabNavigator";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 export default function AppNavigator() {
@@ -15,9 +14,9 @@ export default function AppNavigator() {
       <Stack.Navigator>
         <Stack.Screen
           name="Home"
-          component={HomeScreen}
+          component={TabNavigation}
           options={{
-            title: "Shop",
+            headerShown: false,
           }}
         />
         <Stack.Screen
@@ -27,29 +26,13 @@ export default function AppNavigator() {
             title: "Product Detail",
           }}
         />
-        <Stack.Screen
-          name="Cart"
-          component={CartScreen}
-          options={{
-            title: "Cart",
-          }}
-        />
+
         <Stack.Screen
           name="Checkout"
           component={CheckoutSreen}
           options={{
             title: "Checkout",
           }}
-        />
-        <Stack.Screen
-          name="Wishlist"
-          component={WishlistScreen}
-          options={{ title: "Wishlist" }}
-        />
-        <Stack.Screen
-          name="OrderHistory"
-          component={OrderHistoryScreen}
-          options={{ title: "Order History" }}
         />
       </Stack.Navigator>
     </NavigationContainer>

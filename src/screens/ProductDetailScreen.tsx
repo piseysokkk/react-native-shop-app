@@ -57,7 +57,7 @@ export default function ProductDetailScreen() {
         </Text>
       </Pressable>
       <Pressable
-        onPress={() => navigation.navigate("Cart")}
+        onPress={() => navigation.navigate("Home", { screen: "CartTab" })}
         style={styles.cartButton}
       >
         <Text style={styles.buttonText}>Go to Cart</Text>
