@@ -6,6 +6,7 @@ import OrderHistoryScreen from "../screens/OrderHistoryScreen";
 import { TabParamList } from "../types/navigation";
 import { useCart } from "../context/CartContext";
 import { Ionicons } from "@expo/vector-icons";
+import ProfileScreen from "../screens/ProfileScreen";
 const Tab = createBottomTabNavigator<TabParamList>();
 
 export default function TabNavigation() {
@@ -50,6 +51,16 @@ export default function TabNavigation() {
           title: "Orders",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="receipt-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="ProfileTab"
+        component={ProfileScreen}
+        options={{
+          title: "Profile",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="person-outline" size={size} color={color} />
           ),
         }}
       />

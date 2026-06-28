@@ -5,9 +5,12 @@ export type TabParamList = {
   WishlistTab: undefined;
   CartTab: undefined;
   OrdersTab: undefined;
+  ProfileTab: undefined;
 };
 
 export type RootStackParamList = {
+  Login: undefined;
+  Register: undefined;
   Home: NavigatorScreenParams<TabParamList>;
   ProductDetail: {
     product: Product;
